@@ -1,13 +1,13 @@
 FROM node:slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=1.0.3
+    FSVIEWER_VERSION=1.1.0
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     libasound2 \
     libgconf2-4 \
-    libgtk2.0-0 \
+    libgtk-3-0 \
     libnss3 \
     libxss1 \
     libxtst6 \
@@ -20,9 +20,9 @@ RUN apt-get update \
     && sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 
 RUN mkdir /app \
-    && wget -q https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux64-${FSVIEWER_VERSION}.zip \
-    && unzip -q FeelingSurfViewer-linux64-${FSVIEWER_VERSION}.zip -d /app\
-    && rm FeelingSurfViewer-linux64-${FSVIEWER_VERSION}.zip
+    && wget -q https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
+    && unzip -q FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip -d /app\
+    && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip
 
 COPY supervisor/xvfb.conf /etc/supervisor/conf.d/supervisor_xvfb.conf
 COPY supervisor/fsviewer.conf /etc/supervisor/conf.d/supervisor_fsviewer.conf
