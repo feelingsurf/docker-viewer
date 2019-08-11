@@ -1,7 +1,7 @@
 FROM node:slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=1.1.0
+    FSVIEWER_VERSION=1.2.0
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -23,6 +23,10 @@ RUN mkdir /app \
     && wget -q https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
     && unzip -q FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip -d /app\
     && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip
+
+RUN groupadd -r fsviewer \
+    && useradd -r -g fsviewer fsviewer \
+    && chmod 4755 /app/chrome-sandbox
 
 COPY supervisor/xvfb.conf /etc/supervisor/conf.d/supervisor_xvfb.conf
 COPY supervisor/fsviewer.conf /etc/supervisor/conf.d/supervisor_fsviewer.conf
