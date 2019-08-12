@@ -25,7 +25,7 @@ RUN mkdir /app \
     && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip
 
 RUN groupadd -r fsviewer \
-    && useradd -r -g fsviewer fsviewer \
+    && useradd -rm -g fsviewer fsviewer \
     && chmod 4755 /app/chrome-sandbox
 
 COPY supervisor/xvfb.conf /etc/supervisor/conf.d/supervisor_xvfb.conf
