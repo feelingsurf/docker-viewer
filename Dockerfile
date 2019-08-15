@@ -11,16 +11,14 @@ RUN apt-get update \
     libnss3 \
     libxss1 \
     libxtst6 \
-    supervisor \
+    sudo \
     unzip \
-    wget \
     xvfb \
-    && rm -r /var/lib/apt/lists/* \
-    && mkdir -p /var/log/supervisor \
-    && sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
+    && apt-get autoremove -y \
+    && rm -r /var/lib/apt/lists/*
 
 RUN mkdir /app \
-    && wget -q https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
+    && curl -L -O -s https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
     && unzip -q FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip -d /app\
     && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip
 
@@ -28,7 +26,11 @@ RUN groupadd -r fsviewer \
     && useradd -rm -g fsviewer fsviewer \
     && chmod 4755 /app/chrome-sandbox
 
-COPY supervisor/xvfb.conf /etc/supervisor/conf.d/supervisor_xvfb.conf
-COPY supervisor/fsviewer.conf /etc/supervisor/conf.d/supervisor_fsviewer.conf
+HEALTHCHECK --interval=1m --timeout=3s \
+  CMD curl -f http://localhost:3000 || exit 1
 
-CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+USER fsviewer
+
+COPY run.sh /run.sh
+
+ENTRYPOINT ["/run.sh"]
