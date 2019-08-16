@@ -1,12 +1,13 @@
-FROM node:slim
+FROM debian:stable-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     FSVIEWER_VERSION=1.2.0
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends --no-install-suggests \
+    ca-certificates \
+    curl \
     libasound2 \
-    libgconf2-4 \
     libgtk-3-0 \
     libnss3 \
     libxss1 \
@@ -14,7 +15,6 @@ RUN apt-get update \
     sudo \
     unzip \
     xvfb \
-    && apt-get autoremove -y \
     && rm -r /var/lib/apt/lists/*
 
 RUN mkdir /app \
