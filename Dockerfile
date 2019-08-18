@@ -15,16 +15,18 @@ RUN apt-get update \
     sudo \
     unzip \
     xvfb \
-    && rm -r /var/lib/apt/lists/*
-
-RUN mkdir /app \
+    && rm -r /var/lib/apt/lists/* \
+    && mkdir /app \
     && curl -L -O -s https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
     && unzip -q FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip -d /app\
-    && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip
-
-RUN groupadd -r fsviewer \
+    && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
+    && groupadd -r fsviewer \
     && useradd -rm -g fsviewer fsviewer \
-    && chmod 4755 /app/chrome-sandbox
+    && chmod 4755 /app/chrome-sandbox \
+    && echo 'pcm.!default {\n\
+    type plug\n\
+    slave.pcm "null"\n\
+}' > /etc/asound.conf
 
 HEALTHCHECK --interval=1m --timeout=3s \
   CMD curl -f http://localhost:3000 || exit 1
