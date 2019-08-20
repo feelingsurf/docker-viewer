@@ -3,6 +3,7 @@ FROM debian:stable-slim
 ENV DEBIAN_FRONTEND=noninteractive \
     FSVIEWER_VERSION=1.2.0
 
+# wget is required for crash reporting
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates \
@@ -14,6 +15,7 @@ RUN apt-get update \
     libxtst6 \
     sudo \
     unzip \
+    wget \
     xvfb \
     && rm -r /var/lib/apt/lists/* \
     && mkdir /app \
