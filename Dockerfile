@@ -1,30 +1,33 @@
 FROM debian:stable-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=1.2.1
+    FSVIEWER_VERSION=1.3.0
 
 # wget is required for crash reporting
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates \
     curl \
+    desktop-file-utils \
+    libappindicator3-1 \
     libasound2 \
     libgtk-3-0 \
+    libnotify4 \
     libnss3 \
+    libsecret-1-0 \
     libxss1 \
     libxtst6 \
     sudo \
     unzip \
     wget \
+    xdg-utils \
     xvfb \
     && rm -r /var/lib/apt/lists/* \
-    && mkdir /app \
-    && curl -L -O -s https://storage.googleapis.com/feelingsurf/FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
-    && unzip -q FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip -d /app\
-    && rm FeelingSurfViewer-linux-x64-${FSVIEWER_VERSION}.zip \
+    && curl -L -O -s https://github.com/feelingsurf/viewer/releases/download/v${FSVIEWER_VERSION}/FeelingSurfViewer-linux-amd64-${FSVIEWER_VERSION}.deb \
+    && dpkg -i FeelingSurfViewer-linux-amd64-${FSVIEWER_VERSION}.deb \
+    && rm FeelingSurfViewer-linux-amd64-${FSVIEWER_VERSION}.deb \
     && groupadd -r fsviewer \
     && useradd -rm -g fsviewer fsviewer \
-    && chmod 4755 /app/chrome-sandbox \
     && echo 'pcm.!default {\n\
     type plug\n\
     slave.pcm "null"\n\
