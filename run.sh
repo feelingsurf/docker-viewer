@@ -9,6 +9,6 @@ rm -f /tmp/.X99-lock
 
 sleep 1
 
-DISPLAY=":99" exec /usr/bin/FeelingSurfViewer
+DISPLAY=":99" healthcheck=true healthcheck_port=3000 exec /usr/bin/FeelingSurfViewer
 
 fg %1
