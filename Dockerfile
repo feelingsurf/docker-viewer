@@ -11,6 +11,7 @@ RUN apt-get update \
     desktop-file-utils \
     libappindicator3-1 \
     libasound2 \
+    libgbm1 \
     libgtk-3-0 \
     libnotify4 \
     libnss3 \
