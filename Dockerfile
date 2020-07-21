@@ -1,7 +1,7 @@
 FROM debian:stable-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=1.3.1
+    FSVIEWER_VERSION=1.4.0
 
 # wget is required for crash reporting
 RUN apt-get update \
