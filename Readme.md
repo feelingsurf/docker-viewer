@@ -10,7 +10,7 @@ FeelingSurfViewer is also available as a regular Desktop app at [FeelingSurf](ht
 # Usage
 
 ```
-docker run -d -e access_token=<YOUR_SECRET_ACCESS_TOKEN> --cap-add SYS_ADMIN feelingsurf/viewer:stable
+docker run -d -e access_token=<YOUR_SECRET_ACCESS_TOKEN> feelingsurf/viewer:stable
 ```
 
 Disclaimer: never share your access token as it allows full access to your FeelingSurf account.

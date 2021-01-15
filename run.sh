@@ -9,6 +9,12 @@ rm -f /tmp/.X99-lock
 
 sleep 1
 
-DISPLAY=":99" healthcheck=true healthcheck_port=3000 exec /usr/bin/FeelingSurfViewer
+export DISPLAY=":99"
+export healthcheck=true
+export healthcheck_port=3000
+
+exec /usr/bin/FeelingSurfViewer \
+  --disable-dev-shm-usage \
+  --no-sandbox
 
 fg %1
