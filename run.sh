@@ -15,6 +15,7 @@ export healthcheck_port=3000
 
 exec /usr/bin/FeelingSurfViewer \
   --disable-dev-shm-usage \
-  --no-sandbox
+  --no-sandbox \
+  --disable-gpu
 
 fg %1
