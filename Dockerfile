@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM debian:buster-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     FSVIEWER_VERSION=1.6.0
