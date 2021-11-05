@@ -1,7 +1,7 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=1.6.0
+    FSVIEWER_VERSION=1.7.0
 
 # wget is required for crash reporting
 RUN apt-get update \
@@ -9,7 +9,6 @@ RUN apt-get update \
     ca-certificates \
     curl \
     desktop-file-utils \
-    libappindicator3-1 \
     libasound2 \
     libgbm1 \
     libgtk-3-0 \
