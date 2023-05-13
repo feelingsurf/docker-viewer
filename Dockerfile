@@ -23,9 +23,10 @@ RUN apt-get update \
     xdg-utils \
     xvfb \
     && rm -r /var/lib/apt/lists/* \
-    && curl -L -O -s https://github.com/feelingsurf/viewer/releases/download/${FSVIEWER_VERSION}/FeelingSurfViewer-linux-amd64-${FSVIEWER_VERSION}.deb \
-    && dpkg -i FeelingSurfViewer-linux-amd64-${FSVIEWER_VERSION}.deb \
-    && rm FeelingSurfViewer-linux-amd64-${FSVIEWER_VERSION}.deb \
+    && arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
+    && curl -L -O -s https://github.com/feelingsurf/viewer/releases/download/${FSVIEWER_VERSION}/FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
+    && dpkg -i FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
+    && rm FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
     && groupadd -r fsviewer \
     && useradd -rm -g fsviewer fsviewer \
     && echo 'pcm.!default {\n\
