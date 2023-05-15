@@ -1,9 +1,9 @@
 ---
-name: ci
+name: release
 
 on:
   push:
-    branches:
+    tags:
       - '*'
 
 jobs:
@@ -32,4 +32,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: feelingsurf/viewer:unstable
+          tags: feelingsurf/viewer:stable,feelingsurf/viewer:${{ github.ref_name }}
