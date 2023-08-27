@@ -24,7 +24,7 @@ RUN apt-get update \
     xvfb \
     && rm -r /var/lib/apt/lists/* \
     && arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
-    && curl -L -O -s https://github.com/feelingsurf/viewer/releases/download/${FSVIEWER_VERSION}/FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
+    && curl -L -O -s -f https://github.com/feelingsurf/viewer/releases/download/${FSVIEWER_VERSION}/FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
     && dpkg -i FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
     && rm FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
     && groupadd -r fsviewer \
