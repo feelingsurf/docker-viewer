@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=2.4.0
+    FSVIEWER_VERSION=2.4.1
 
 # wget is required for crash reporting
 RUN apt-get update \
