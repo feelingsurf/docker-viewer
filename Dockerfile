@@ -3,12 +3,18 @@ FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND=noninteractive \
     FSVIEWER_VERSION=2.5.0
 
-# wget is required for crash reporting
+LABEL org.opencontainers.image.version="${FSVIEWER_VERSION}" \
+      org.opencontainers.image.title="FeelingSurf Viewer" \
+      org.opencontainers.image.description="FeelingSurf Viewer in a container" \
+      org.opencontainers.image.vendor="FeelingSurf" \
+      org.opencontainers.image.source="https://github.com/feelingsurf/viewer" \
+      org.opencontainers.image.url="https://www.feelingsurf.fr"
+
+# Install dependencies, create user, and install FeelingSurf Viewer
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
     ca-certificates \
-    curl \
-    desktop-file-utils \
+    wget \
     libasound2 \
     libgbm1 \
     libgtk-3-0 \
@@ -17,28 +23,25 @@ RUN apt-get update \
     libsecret-1-0 \
     libxss1 \
     libxtst6 \
-    sudo \
-    unzip \
-    wget \
     xdg-utils \
     xvfb \
-    && rm -r /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && groupadd -r fsviewer \
+    && useradd -rm -g fsviewer -G audio fsviewer \
+    && echo 'pcm.!default {\n  type plug\n  slave.pcm "null"\n}' > /etc/asound.conf \
     && arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
-    && curl -L -O -s -f https://github.com/feelingsurf/viewer/releases/download/${FSVIEWER_VERSION}/FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
+    && wget -q https://github.com/feelingsurf/viewer/releases/download/${FSVIEWER_VERSION}/FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
     && dpkg -i FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
     && rm FeelingSurfViewer-linux-${arch}-${FSVIEWER_VERSION}.deb \
-    && groupadd -r fsviewer \
-    && useradd -rm -g fsviewer fsviewer \
-    && echo 'pcm.!default {\n\
-    type plug\n\
-    slave.pcm "null"\n\
-}' > /etc/asound.conf
+    && rm -rf /usr/share/doc/* /usr/share/man/* /var/cache/debconf/* /tmp/* /var/tmp/*
 
-HEALTHCHECK --interval=1m --timeout=3s \
-  CMD curl -f http://localhost:3000 || exit 1
+WORKDIR /home/fsviewer
+
+COPY --chmod=755 run.sh /run.sh
 
 USER fsviewer
 
-COPY run.sh /run.sh
+HEALTHCHECK --interval=1m --timeout=3s --start-period=30s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
 
 ENTRYPOINT ["/run.sh"]
