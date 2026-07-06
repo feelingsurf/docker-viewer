@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    FSVIEWER_VERSION=2.5.1
+    FSVIEWER_VERSION=2.5.2
 
 LABEL org.opencontainers.image.version="${FSVIEWER_VERSION}" \
       org.opencontainers.image.title="FeelingSurf Viewer" \
