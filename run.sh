@@ -25,4 +25,5 @@ trap 'kill -TERM $XVFB_PID 2>/dev/null; exit 0' TERM INT
 exec /usr/bin/FeelingSurfViewer \
   --disable-dev-shm-usage \
   --no-sandbox \
-  --disable-gpu
+  --use-gl=angle \
+  --use-angle=swiftshader
